@@ -38,6 +38,11 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+// Poll page
+app.get("/poll", (req, res) => {
+  res.render("poll");
+});
+
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
