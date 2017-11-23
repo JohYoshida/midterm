@@ -100,4 +100,4 @@ app.get("/poll/results", (req, res) => {
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
-console.log(helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6));
+// console.log(helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6));
