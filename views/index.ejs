@@ -8,26 +8,48 @@
   <body>
     <% include ./partials/header.ejs %>
 
-    <form class="" action="index.html" method="post">
-      <div class="">
-        <input type="text" name="title" value="" placeholder="title">
-        <input type="email" name="email" value="" placeholder="email">
+    <div class="container">
+      <div class="jumbotron">
+        <h1>Decision Maker</h1>
+        <p>Decision making made easy</p>
       </div>
-      <!-- options -->
-      <div class="">
-        <input type="text" name="option" value="" placeholder="option">
-        <input type="text" name="description" value="" placeholder="description">
+
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <form class="form" action="index.html" method="post">
+
+            <div class="input-group">
+              <label for="poll-title">Poll Title</label>
+              <input id="poll-title" class="form-control" type="text" name="title" value="" placeholder="title">
+            </div>
+            <div class="input-group">
+              <label for="poll-email">Email</label>
+              <input id="poll-email" class="form-control" type="email" name="email" value="" placeholder="email">
+            </div>
+            <!-- options -->
+            <div class="input-group">
+              <label for="">Option 1</label>
+              <input class="form-control" type="text" name="option" value="" placeholder="option">
+              <input class="form-control" type="text" name="description" value="" placeholder="description">
+            </div>
+            <div class="input-group">
+              <label for="">Option 2</label>
+              <input class="form-control" type="text" name="option" value="" placeholder="option">
+              <input class="form-control" type="text" name="description" value="" placeholder="description">
+            </div>
+            <div class="input-group">
+              <label for="">Option 3</label>
+              <input class="form-control" type="text" name="option" value="" placeholder="option">
+              <input class="form-control" type="text" name="description" value="" placeholder="description">
+            </div>
+            <div class="input-group">
+              <input class="btn btn-primary" type="submit" name="submit" value="Submit">
+            </div>
+
+          </form>
+        </div>
       </div>
-      <div class="">
-        <input type="text" name="option" value="" placeholder="option">
-        <input type="text" name="description" value="" placeholder="description">
-      </div>
-      <div class="">
-        <input type="text" name="option" value="" placeholder="option">
-        <input type="text" name="description" value="" placeholder="description">
-      </div>
-      <input type="submit" name="submit" value="Submit">
-    </form>
+    </div>
 
     <% include ./partials/footer.ejs %>
   </body>

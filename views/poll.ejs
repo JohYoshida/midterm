@@ -7,23 +7,42 @@
   <body>
     <% include ./partials/header.ejs %>
 
-    <form class="" action="poll.html" method="post">
-      <h2>Title</h2>
-      <!-- options -->
-      <div class="">
-        <h3>Option</h3>
-        <p>Description</p>
+    <div class="container">
+      <div class="jumbotron">
+        <h2>Title</h2>
+        <p>created by email@email.com</p>
       </div>
-      <div class="">
-        <h3>Option</h3>
-        <p>Description</p>
+
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <form class="form" action="poll.html" method="post">
+            <!-- options -->
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <h3>Option 1</h3>
+                <p>Description</p>
+                <p>Rating</p>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <h3>Option 2</h3>
+                <p>Description</p>
+                <p>Rating</p>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <h3>Option 3</h3>
+                <p>Description</p>
+                <p>Rating</p>
+              </div>
+            </div>
+            <input class="btn btn-primary" type="submit" name="submit" value="Submit">
+          </form>
+        </div>
       </div>
-      <div class="">
-        <h3>Option</h3>
-        <p>Description</p>
-      </div>
-      <input type="submit" name="submit" value="Submit">
-    </form>
+    </div>
 
     <% include ./partials/footer.ejs %>
   </body>
