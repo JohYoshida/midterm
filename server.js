@@ -44,11 +44,17 @@ app.get("/", (req, res) => {
 
 // main page POST
 app.post("/", (req, res) => {
-//fill me with javascript please for when the creator submits the initial form
+// testing routePaths
+  //const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
+  //const route_path_not_dupe = helpers.checkForDupe(generatedNum);     WILL WORK ON THIS LATER
+
+  //console.log('checking route_path_not_dupe: ', route_path_not_dupe);
+
   knex('polls')
     .insert({
       title: req.body.title,
-      email: req.body.email
+      email: req.body.email,
+      routePath: helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6)
     })
     .returning('*')
     .then((polls) => {
@@ -67,7 +73,7 @@ app.post("/", (req, res) => {
       })
     })
     .then(() => {
-      console.log(printAll('options'));
+     // console.log(printAll('options'));
       console.log(printAll('polls'));
     });
 });
