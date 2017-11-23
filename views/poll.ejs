@@ -9,34 +9,38 @@
 
     <div class="container">
       <div class="jumbotron">
-        <h2>Title</h2>
+        <h1>Title</h1>
         <p>created by email@email.com</p>
+        <h2>Drag and drop options to rank your choices</h2>
       </div>
 
       <div class="panel panel-default">
         <div class="panel-body">
           <form class="form" action="poll.html" method="post">
-            <!-- options -->
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <h3>Option 1</h3>
-                <p>Description</p>
-                <p>Rating</p>
+
+            <div class="options">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <h3>Option 1</h3>
+                  <p>Description</p>
+                  <p>Rating</p>
+                </div>
               </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <h3>Option 2</h3>
-                <p>Description</p>
-                <p>Rating</p>
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <h3>Option 2</h3>
+                  <p>Description</p>
+                  <p>Rating</p>
+                </div>
               </div>
-            </div>
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <h3>Option 3</h3>
-                <p>Description</p>
-                <p>Rating</p>
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <h3>Option 3</h3>
+                  <p>Description</p>
+                  <p>Rating</p>
+                </div>
               </div>
+
             </div>
             <input class="btn btn-primary" type="submit" name="submit" value="Submit">
           </form>
@@ -45,5 +49,8 @@
     </div>
 
     <% include ./partials/footer.ejs %>
+    <!-- Dragula -->
+    <script src='https://rawgit.com/bevacqua/dragula/master/dist/dragula.js'></script>
+    <script type="text/javascript" src="/scripts/poll-dragula.js"></script>
   </body>
 </html>
