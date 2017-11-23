@@ -15,6 +15,9 @@ const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
 
 
+const helpers = require('./public/scripts/helpers.js');
+
+
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
@@ -32,6 +35,7 @@ app.use("/styles", sass({
   outputStyle: 'expanded'
 }));
 app.use(express.static("public"));
+
 
 // Home page
 app.get("/", (req, res) => {
@@ -96,3 +100,4 @@ app.get("/poll/results", (req, res) => {
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
+console.log(helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6));
