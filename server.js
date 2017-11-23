@@ -38,9 +38,39 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+// main page POST
+app.post("/", (req, res) => {
+//fill me with javascript please for when the creator submits the initial form
+  //console.log(req.body.title, req.body.email);
+  knex('polls')
+    .insert({
+      title: req.body.title,
+      email: req.body.email
+    })
+    .asCallback(function(err, result) {
+      if (err) return console.error(err);
+      console.log(printAll());
+    });
+});
+
+//used for testing
+function printAll(){
+  knex.select('*')
+    .from('polls')
+    .asCallback(function(err, rows) {
+      console.log(rows);
+    })
+}
+
+
 // Poll page
 app.get("/poll", (req, res) => {
   res.render("poll");
+});
+
+// poll page POST
+app.post("/poll", (req, res) => {
+//fill me with javascript please for when the user submits poll rankins
 });
 
 // Poll results page
