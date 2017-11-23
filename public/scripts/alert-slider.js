@@ -1,7 +1,6 @@
 $(() => {
   $(".alert-danger").hide();
   $(".btn").on("click", event => {
-    event.preventDefault();
     $(".alert-danger").empty();
 
     var title = $("#poll-title").val();
@@ -15,4 +14,3 @@ $(() => {
     }
   });
 });
-// <div class='input-group'></div>
