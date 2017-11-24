@@ -3,10 +3,8 @@ $(() => {
   function addInputGroup() {
     var lastOption = $(".input-group").last().children(".option");
     lastOption.on("focus", event => {
-      console.log("last");
       var created = false;
       $(".option").on("keypress", event => {
-        console.log("keypress");
         var optionVal = lastOption.val();
         if (!optionVal) {
           if (!created) {
