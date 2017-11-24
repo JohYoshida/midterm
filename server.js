@@ -13,6 +13,7 @@ const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
+const mailgun     = require('./mailgun');
 
 
 const helpers = require('./public/scripts/helpers.js');
@@ -45,10 +46,12 @@ app.get("/", (req, res) => {
 // main page POST
 app.post("/", (req, res) => {
 // testing routePaths
-  const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
   //const route_path_not_dupe = helpers.checkForDupe(generatedNum);     WILL WORK ON THIS LATER
   //console.log('checking route_path_not_dupe: ', route_path_not_dupe);
 //fill me with javascript please for when the creator submits the initial form
+  const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
+
+   mailgun(req.body, generatedNum);
 
   knex('polls')
     .insert({
@@ -66,7 +69,7 @@ app.post("/", (req, res) => {
           .select('*')
           .returning('*')
           .then((option) => {
-            console.log('*****option!!!!!:   ', value);
+            //console.log('*****option!!!!!:   ', value);
             if (value !== '' ){
               //console.log('COUNT IT');
               knex('options')
@@ -86,6 +89,7 @@ app.post("/", (req, res) => {
      // console.log(printAll('options'));
       //sconsole.log(printAll('polls'));
     });
+
 
 
   let responseObject = {pollRoutePath: generatedNum};
