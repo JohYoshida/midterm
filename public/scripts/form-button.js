@@ -13,7 +13,7 @@ $(() => {
     } else {
       event.preventDefault();
       $(".buttons").slideDown();
-      $(".form").hide();
+      $(".form").slideUp();
       let dataString = $("#new-poll").serialize();
       $.ajax({
         url: '/',
