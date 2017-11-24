@@ -5,7 +5,7 @@ const knexConfig  = require('../knexfile');
 const knex        = require('knex')(knexConfig[ENV]);
 
 module.exports = {
-  generateRandomChars: function (chars, length) {
+  generateRandomChars: (chars, length) => {
     let result = '';
     for (let i = length; i > 0; --i) {
       result += chars[Math.floor(Math.random() * chars.length)];
@@ -15,7 +15,7 @@ module.exports = {
 
   //to use this go let route_path = checkForDupe(generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6));
   // the route_path variable now has the unique routePath to be placed in the polls table
-  checkForDupe: function (path) {
+  checkForDupe: path => {
     const charsForPath = '0123456789abcdefghijklmnopqrstuvwxyz';
 
     knex('polls')
@@ -30,6 +30,69 @@ module.exports = {
         }
         //console.log('inside checkForDupe: ', path);
         return path;
+      });
+  },
+
+  insertIntoOptionsTable : (polls, body) => {
+    const optionsArray = body.option;
+    let i = 0;
+
+    optionsArray.forEach(value => {
+      knex('options')
+        .select('*')
+        .returning('*')
+        .then(option => {
+          console.log('*****option!!!!!:   ', value);
+          if (value !== ''){
+            //console.log('COUNT IT');
+            knex('options')
+              .insert({
+                title: value,
+                description: body.description[i],
+                poll_id: polls[0].id
+              })
+              .then();
+            i++;
+          }
+        });
+    });
+  },
+
+  insertIntoTables : (body, id) => {
+    knex('polls')
+      .insert({
+        title: body.title,
+        email: body.email,
+        routePath: id
+      })
+      .returning('*')
+      .then((polls) => {
+        const optionsArray = body.option;
+        let i = 0;
+
+        optionsArray.forEach(value => {
+          knex('options')
+            .select('*')
+            .returning('*')
+            .then(option => {
+              console.log('*****option!!!!!:   ', value);
+              if (value !== ''){
+                //console.log('COUNT IT');
+                knex('options')
+                  .insert({
+                    title: value,
+                    description: body.description[i],
+                    poll_id: polls[0].id
+                  })
+                  .then();
+                i++;
+              }
+            });
+        });
+      })
+      .then(() => {
+        // console.log(printAll('options'));
+        // console.log(printAll('polls'));
       });
   }
 };

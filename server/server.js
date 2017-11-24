@@ -45,47 +45,15 @@ app.get('/', (req, res) => {
 // main page POST
 app.post('/', (req, res) => {
 // testing routePaths
+  console.log(helpers);
+
   const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
   //const route_path_not_dupe = helpers.checkForDupe(generatedNum);     WILL WORK ON THIS LATER
   //console.log('checking route_path_not_dupe: ', route_path_not_dupe);
-//fill me with javascript please for when the creator submits the initial form
+  //fill me with javascript please for when the creator submits the initial form
 
-  knex('polls')
-    .insert({
-      title: req.body.title,
-      email: req.body.email,
-      routePath: generatedNum
-    })
-    .returning('*')
-    .then((polls) => {
-      const optionArray = req.body.option;
-      let i = 0;
+  helpers.insertIntoTables(req.body, generatedNum)
 
-      optionArray.forEach(function(value){
-        knex('options')
-          .select('*')
-          .returning('*')
-          .then((option) => {
-            console.log('*****option!!!!!:   ', value);
-            if (value !== '' ){
-              //console.log('COUNT IT');
-              knex('options')
-                .insert({
-                  title: value,
-                  description: req.body.description[i],
-                  poll_id: polls[0].id
-                })
-                .then();
-              i++;
-            }
-          })
-
-      })
-    })
-    .then(() => {
-     // console.log(printAll('options'));
-      //sconsole.log(printAll('polls'));
-    });
 });
 
 //used for testing
