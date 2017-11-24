@@ -27,9 +27,8 @@ function makeTitlesArray(options) {
   for (let title in titles) {
     let rank = Number(title) + 1;
     if (rank) {
-      // console.log(titles[title].innerHTML, "Rank:", rank);
-      // titlesArray.push(titles[title].innerHTML);
-      obj[titles[title].innerHTML] = titles.length - rank + 1;
+      let key = titles[title].innerHTML;
+      obj[key] = titles.length - rank + 1;
     }
   }
   return obj;

@@ -135,11 +135,7 @@ app.post("/:id", (req, res) => {
   //fill me with javascript please for when the user submits poll rankins
 
   let pollId = req.headers.referer.slice(-6);
-  // let titlesArray = JSON.parse(req.body);
-  // console.log("body", req.body);
-  for (let option in req.body) {
-    // console.log("rating:", option, req.body[option]);
-  }
+
   knex('polls')
     .where({ routePath: pollId})
     .select('*')
@@ -149,18 +145,22 @@ app.post("/:id", (req, res) => {
         .select('*')
         .returning('*')
         .then((options) => {
-          const optionsArray = options;
-          console.log("optionsArray", optionsArray);
 
-          knex("ratings")
-          .where({ option_id: options[0].id })
-          .insert({
-            rating: req.body[option],
-            option_id: options[0].id
-          })
-          .then((ratings) => {
-            console.log("success!");
-          })
+          for (let option in options) {
+            console.log("title", options[option].title);
+            console.log("id", options[option].id);
+            console.log("score", req.body[options[option].title]);
+            knex("ratings")
+            .where({ option_id: options[option].id })
+            .insert({
+              rating: req.body[options[option].title],
+              option_id: options[option].id
+            })
+            .then((ratings) => {
+              console.log("success!");
+              // console.log(ratings);
+            })
+          }
         })
     })
 
