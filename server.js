@@ -89,8 +89,19 @@ function printAll(table){
 
 
 // Poll page
-app.get("/poll", (req, res) => {
-  res.render("poll");
+app.get("/poll/:id", (req, res) => {
+  let tempId = req.params.id
+  knex('polls').where({ routePath: tempId}).select('*').returning('*').then((polls) => {
+    console.log(polls);
+    let templateVars = {
+      id : tempId,
+      pollTitle: polls[0].title,
+      pollEmail: polls[0].email
+    }
+    res.render("poll", templateVars);
+  });
+
+
 });
 
 // poll page POST
