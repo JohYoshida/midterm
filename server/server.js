@@ -45,15 +45,18 @@ app.get('/', (req, res) => {
 // main page POST
 app.post('/', (req, res) => {
 // testing routePaths
-  console.log(helpers);
 
   const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
   //const route_path_not_dupe = helpers.checkForDupe(generatedNum);     WILL WORK ON THIS LATER
   //console.log('checking route_path_not_dupe: ', route_path_not_dupe);
   //fill me with javascript please for when the creator submits the initial form
 
-  helpers.insertIntoTables(req.body, generatedNum)
+  helpers.insertIntoTables(req.body, generatedNum);
 
+  let responseObject = {pollRoutePath: generatedNum};
+  let data = JSON.stringify(responseObject);
+  console.log(data);
+  res.send(data);
 });
 
 //used for testing
