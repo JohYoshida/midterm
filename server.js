@@ -138,7 +138,7 @@ app.post("/poll", (req, res) => {
 });
 
 // Poll results page
-app.get("/poll/results", (req, res) => {
+app.get("/:id/results", (req, res) => {
   res.render("results");
 });
 

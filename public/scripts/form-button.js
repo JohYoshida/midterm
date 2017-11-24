@@ -29,6 +29,11 @@ $(() => {
         event.stopPropagation();
         window.location.replace(`http://localhost:8080/${longurl.pollRoutePath}`);
       });
+      $("#results").on("click", (event) => {
+        event.stopPropagation();
+        window.location.replace(`http://localhost:8080/${longurl.pollRoutePath}/results`);
+      });
+
     }
   });
 });
