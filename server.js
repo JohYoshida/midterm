@@ -49,19 +49,7 @@ app.post("/", (req, res) => {
   //const route_path_not_dupe = helpers.checkForDupe(generatedNum);     WILL WORK ON THIS LATER
   //console.log('checking route_path_not_dupe: ', route_path_not_dupe);
 //fill me with javascript please for when the creator submits the initial form
-  const optionArray = req.body.option;
-  let i = 0;
-  optionArray.forEach(function(value){
-    knex('options')
-    .insert({
-      title: value,
-      description: req.body.description[i]
-    })
-    .asCallback(function(err, result) {
-      if (err) return console.error(err);
-    });
-    i++;
-  });
+
   knex('polls')
     .insert({
       title: req.body.title,
@@ -86,7 +74,7 @@ app.post("/", (req, res) => {
     })
     .then(() => {
      // console.log(printAll('options'));
-      console.log(printAll('polls'));
+      //console.log(printAll('polls'));
     });
 });
 
@@ -103,8 +91,26 @@ function printAll(table){
 // Poll page
 app.get("/:id", (req, res) => {
   let tempId = req.params.id
-  knex('polls').where({ routePath: tempId}).select('*').returning('*').then((polls) => {
-    console.log(polls);
+  knex('polls')
+    .where({ routePath: tempId})
+    .select('*')
+    .returning('*')
+    .then((polls) => {
+    console.log(polls[0].id);
+      knex('options')
+        .where({ poll_id: polls[0].id })
+        .select('*')
+        .returning('*')
+        .then((options) => {
+          //const map1 = options.map(value => x * 2);
+         // console.log(options);
+          // options.forEach(function(value){
+
+          //   console.log(value);
+          // })
+        });
+
+
     let templateVars = {
       id : tempId,
       pollTitle: polls[0].title,
