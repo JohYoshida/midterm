@@ -38,7 +38,7 @@ app.use(express.static("public"));
 
 // handle favicon weirdness
 app.get('/favicon.ico', function(req, res) {
-    res.status(204);
+  res.status(204);
 });
 
 // Home page
@@ -52,7 +52,7 @@ app.post("/", (req, res) => {
   const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
   //const route_path_not_dupe = helpers.checkForDupe(generatedNum);     WILL WORK ON THIS LATER
   //console.log('checking route_path_not_dupe: ', route_path_not_dupe);
-//fill me with javascript please for when the creator submits the initial form
+  //fill me with javascript please for when the creator submits the initial form
 
   knex('polls')
     .insert({
@@ -82,12 +82,11 @@ app.post("/", (req, res) => {
                 .then();
               i++;
             }
-          })
-
-      })
+          });
+      });
     })
     .then(() => {
-     // console.log(printAll('options'));
+      // console.log(printAll('options'));
       //sconsole.log(printAll('polls'));
     });
 
@@ -104,13 +103,13 @@ function printAll(table){
     .from(table)
     .asCallback(function(err, rows) {
       console.log(rows);
-    })
+    });
 }
 
 
 // Poll page
 app.get("/:id", (req, res) => {
-  let tempId = req.params.id
+  let tempId = req.params.id;
   knex('polls')
     .where({ routePath: tempId})
     .select('*')
@@ -123,15 +122,15 @@ app.get("/:id", (req, res) => {
         .then((options) => {
 
           let templateVars = {
-            id : tempId,
+            id: tempId,
             pollTitle: polls[0].title,
             pollEmail: polls[0].email,
             pollRoutePath: polls[0].routePath,
             optionsArr: options
-          }
-        res.render("poll", templateVars);
-      });
-  });
+          };
+          res.render("poll", templateVars);
+        });
+    });
 });
 
 // poll page POST
@@ -155,20 +154,18 @@ app.post("/:id", (req, res) => {
             console.log("id", options[option].id);
             console.log("score", req.body[options[option].title]);
             knex("ratings")
-            .where({ option_id: options[option].id })
-            .insert({
-              rating: req.body[options[option].title],
-              option_id: options[option].id
-            })
-            .then((ratings) => {
-              console.log("success!");
-              // console.log(ratings);
-            })
+              .where({ option_id: options[option].id })
+              .insert({
+                rating: req.body[options[option].title],
+                option_id: options[option].id
+              })
+              .then((ratings) => {
+                console.log("success!");
+              });
           }
-        })
-    })
-
-
+        });
+    });
+  res.status(200).send();
 });
 
 // Poll results page
