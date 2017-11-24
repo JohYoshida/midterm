@@ -86,6 +86,12 @@ app.post("/", (req, res) => {
      // console.log(printAll('options'));
       //sconsole.log(printAll('polls'));
     });
+
+
+  let responseObject = {pollRoutePath: generatedNum};
+  let data = JSON.stringify(responseObject);
+  console.log(data);
+  res.send(data);
 });
 
 //used for testing
