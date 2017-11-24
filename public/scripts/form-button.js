@@ -1,7 +1,7 @@
 $(() => {
   $(".alert-danger").hide();
   $(".buttons").hide();
-  $(".btn").on("click", event => {
+  $("#submit").on("click", event => {
     let longurl = '';
     $(".alert-danger").empty().hide();
 
@@ -18,13 +18,16 @@ $(() => {
       let dataString = $("#new-poll").serialize();
       $.ajax({
         url: '/',
-
         method: 'POST',
         data: dataString,
         success: function(data){
           longurl = JSON.parse(data);
-          console.log(longurl.pollRoutePath);
+          console.log(longurl);
         }
+      });
+      $("#vote").on("click", (event) => {
+        event.stopPropagation();
+        window.location.replace(`http://localhost:8080/${longurl.pollRoutePath}`);
       });
     }
   });
