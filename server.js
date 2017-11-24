@@ -41,7 +41,6 @@ app.get("/", (req, res) => {
 // main page POST
 app.post("/", (req, res) => {
 //fill me with javascript please for when the creator submits the initial form
-  console.log(req.body);
   const optionArray = req.body.option;
   let i = 0;
   optionArray.forEach(function(value){
