@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  <
   <head>
     <title>Home Page</title>
     <% include ./partials/head.ejs %>
@@ -16,7 +17,7 @@
 
       <div class="panel panel-default">
         <div class="panel-body">
-          <form class="form" action="/" method="post">
+          <form class="form" action="/" method="post" id="new-poll">
 
             <div class="">
               <label for="poll-title">Poll Title</label>
@@ -43,6 +44,15 @@
             </div>
 
           </form>
+
+          <div class="alert alert-danger">
+            <!-- alerts go here -->
+          </div>
+          <div class="buttons">
+            <!-- these buttons appear on form submission -->
+            <button class="btn btn-primary" type="button" name="button">Poll</button>
+            <button class="btn btn-secondary" type="button" name="button">Results</button>
+          </div>
         </div>
       </div>
     </div>

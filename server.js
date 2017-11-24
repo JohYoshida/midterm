@@ -47,9 +47,21 @@ app.post("/", (req, res) => {
 // testing routePaths
   //const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
   //const route_path_not_dupe = helpers.checkForDupe(generatedNum);     WILL WORK ON THIS LATER
-
   //console.log('checking route_path_not_dupe: ', route_path_not_dupe);
-
+//fill me with javascript please for when the creator submits the initial form
+  const optionArray = req.body.option;
+  let i = 0;
+  optionArray.forEach(function(value){
+    knex('options')
+    .insert({
+      title: value,
+      description: req.body.description[i]
+    })
+    .asCallback(function(err, result) {
+      if (err) return console.error(err);
+    });
+    i++;
+  });
   knex('polls')
     .insert({
       title: req.body.title,
