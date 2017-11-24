@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  <
   <head>
     <title>Home Page</title>
     <% include ./partials/head.ejs %>
@@ -7,6 +8,7 @@
 
   <body>
     <% include ./partials/header.ejs %>
+    <script type="text/javascript" src="/scripts/asyncButton.js"></script>
 
     <div class="container">
       <div class="jumbotron">
@@ -16,7 +18,7 @@
 
       <div class="panel panel-default">
         <div class="panel-body">
-          <form class="form" action="/" method="post">
+          <form class="form" action="/" method="post" id="new-poll">
 
             <div class="">
               <label for="poll-title">Poll Title</label>

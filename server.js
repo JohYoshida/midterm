@@ -62,7 +62,7 @@ app.post("/", (req, res) => {
     })
     .asCallback(function(err, result) {
       if (err) return console.error(err);
-      console.log(printAll());
+      printAll();
     });
 });
 
