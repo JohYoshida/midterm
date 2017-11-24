@@ -53,7 +53,7 @@ app.post('/', (req, res) => {
 
   helpers.insertIntoTables(req.body, generatedNum);
 
-  let responseObject = {pollRoutePath: generatedNum};
+  let responseObject = { pollRoutePath: generatedNum };
   let data = JSON.stringify(responseObject);
   console.log(data);
   res.send(data);
@@ -65,13 +65,13 @@ function printAll(table){
     .from(table)
     .asCallback(function(err, rows) {
       console.log(rows);
-    })
+    });
 }
 
 
 // Poll page
 app.get('/:id', (req, res) => {
-  let tempId = req.params.id
+  let tempId = req.params.id;
   knex('polls')
     .where({ routePath: tempId})
     .select('*')
@@ -84,17 +84,15 @@ app.get('/:id', (req, res) => {
         .then((options) => {
 
           let templateVars = {
-            id : tempId,
+            id: tempId,
             pollTitle: polls[0].title,
             pollEmail: polls[0].email,
             pollRoutePath: polls[0].routePath,
             optionsArr: options
-          }
-        res.render('poll', templateVars);
-      });
-  });
-
-
+          };
+          res.render('poll', templateVars);
+        });
+    });
 });
 
 // poll page POST

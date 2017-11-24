@@ -33,32 +33,7 @@ module.exports = {
       });
   },
 
-  insertIntoOptionsTable : (polls, body) => {
-    const optionsArray = body.option;
-    let i = 0;
-
-    optionsArray.forEach(value => {
-      knex('options')
-        .select('*')
-        .returning('*')
-        .then(option => {
-          console.log('*****option!!!!!:   ', value);
-          if (value !== ''){
-            //console.log('COUNT IT');
-            knex('options')
-              .insert({
-                title: value,
-                description: body.description[i],
-                poll_id: polls[0].id
-              })
-              .then();
-            i++;
-          }
-        });
-    });
-  },
-
-  insertIntoTables : (body, id) => {
+  insertIntoTables: (body, id) => {
     knex('polls')
       .insert({
         title: body.title,
