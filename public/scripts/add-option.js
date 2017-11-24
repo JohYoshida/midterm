@@ -1,11 +1,12 @@
 $(() => {
 
   function addInputGroup() {
-    $(".input-group").last().children(".option").on("focus", event => {
+    var lastOption = $(".input-group").last().children(".option");
+    lastOption.on("focus", event => {
       var created = false;
       $(".option").on("keypress", event => {
-        var option = $(".option").val();
-        if (!option) {
+        var optionVal = lastOption.val();
+        if (!optionVal) {
           if (!created) {
             created = true;
             $(".button").before($("<div class='input-group'></div>")
