@@ -37,7 +37,7 @@ app.use("/styles", sass({
 app.use(express.static("public"));
 
 // handle favicon weirdness
-app.get('/favicon.ico', function(req, res) {
+app.get('/favicon.ico', (req, res) => {
   res.status(204);
 });
 
@@ -65,14 +65,13 @@ app.post("/", (req, res) => {
       const optionArray = req.body.option;
       let i = 0;
 
-      optionArray.forEach(function(value){
+      optionArray.forEach(value => {
         knex('options')
           .select('*')
           .returning('*')
           .then((option) => {
-            console.log('*****option!!!!!:   ', value);
+            console.log('Option:', value, "Description:", req.body.description[i]);
             if (value !== '' ){
-              //console.log('COUNT IT');
               knex('options')
                 .insert({
                   title: value,
@@ -93,7 +92,6 @@ app.post("/", (req, res) => {
 
   let responseObject = {pollRoutePath: generatedNum};
   let data = JSON.stringify(responseObject);
-  console.log(data);
   res.send(data);
 });
 
@@ -120,7 +118,6 @@ app.get("/:id", (req, res) => {
         .select('*')
         .returning('*')
         .then((options) => {
-
           let templateVars = {
             id: tempId,
             pollTitle: polls[0].title,
@@ -148,19 +145,13 @@ app.post("/:id", (req, res) => {
         .select('*')
         .returning('*')
         .then((options) => {
-
           for (let option in options) {
-            console.log("title", options[option].title);
-            console.log("id", options[option].id);
-            console.log("score", req.body[options[option].title]);
+            console.log(options[option].title, 'ID:', options[option].id, 'Score:', req.body[options[option].title]);
             knex("ratings")
               .where({ option_id: options[option].id })
               .insert({
                 rating: req.body[options[option].title],
                 option_id: options[option].id
-              })
-              .then((ratings) => {
-                console.log("success!");
               });
           }
         });
@@ -176,4 +167,3 @@ app.get("/:id/results", (req, res) => {
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
-// console.log(helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6));
