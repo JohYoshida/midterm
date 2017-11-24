@@ -45,7 +45,7 @@ app.get("/", (req, res) => {
 // main page POST
 app.post("/", (req, res) => {
 // testing routePaths
-  //const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
+  const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
   //const route_path_not_dupe = helpers.checkForDupe(generatedNum);     WILL WORK ON THIS LATER
   //console.log('checking route_path_not_dupe: ', route_path_not_dupe);
 //fill me with javascript please for when the creator submits the initial form
@@ -54,7 +54,7 @@ app.post("/", (req, res) => {
     .insert({
       title: req.body.title,
       email: req.body.email,
-      routePath: helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6)
+      routePath: generatedNum
     })
     .returning('*')
     .then((polls) => {
@@ -63,18 +63,28 @@ app.post("/", (req, res) => {
 
       optionArray.forEach(function(value){
         knex('options')
-        .insert({
-          title: value,
-          description: req.body.description[i],
-          poll_id: polls[0].id
-        })
-        .then();
-        i++;
+          .select('*')
+          .returning('*')
+          .then((option) => {
+            console.log('*****option!!!!!:   ', value);
+            if (value !== '' ){
+              //console.log('COUNT IT');
+              knex('options')
+                .insert({
+                  title: value,
+                  description: req.body.description[i],
+                  poll_id: polls[0].id
+                })
+                .then();
+              i++;
+            }
+          })
+
       })
     })
     .then(() => {
      // console.log(printAll('options'));
-      //console.log(printAll('polls'));
+      //sconsole.log(printAll('polls'));
     });
 });
 
@@ -96,28 +106,21 @@ app.get("/:id", (req, res) => {
     .select('*')
     .returning('*')
     .then((polls) => {
-    console.log(polls[0].id);
       knex('options')
         .where({ poll_id: polls[0].id })
         .select('*')
         .returning('*')
         .then((options) => {
-          //const map1 = options.map(value => x * 2);
-         // console.log(options);
-          // options.forEach(function(value){
 
-          //   console.log(value);
-          // })
-        });
-
-
-    let templateVars = {
-      id : tempId,
-      pollTitle: polls[0].title,
-      pollEmail: polls[0].email,
-      pollRoutePath: polls[0].routePath
-    }
-    res.render("poll", templateVars);
+          let templateVars = {
+            id : tempId,
+            pollTitle: polls[0].title,
+            pollEmail: polls[0].email,
+            pollRoutePath: polls[0].routePath,
+            optionsArr: options
+          }
+        res.render("poll", templateVars);
+      });
   });
 
 

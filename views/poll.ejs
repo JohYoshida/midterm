@@ -19,28 +19,16 @@
           <form class="form" action="poll.html" method="post">
 
             <div class="options">
-              <div class="panel panel-default">
-                <div class="panel-body">
-                  <h3>Option 1</h3>
-                  <p>Description</p>
-                  <p>Rating</p>
-                </div>
-              </div>
-              <div class="panel panel-default">
-                <div class="panel-body">
-                  <h3>Option 2</h3>
-                  <p>Description</p>
-                  <p>Rating</p>
-                </div>
-              </div>
-              <div class="panel panel-default">
-                <div class="panel-body">
-                  <h3>Option 3</h3>
-                  <p>Description</p>
-                  <p>Rating</p>
-                </div>
-              </div>
 
+              <% for (let option in optionsArr) { %>
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <h3> <%= optionsArr[option].title %> </h3>
+                  <p><%= optionsArr[option].description %></p>
+                  <p>Rating</p>
+                </div>
+              </div>
+              <% } %>
             </div>
             <input class="btn btn-primary" type="submit" name="submit" value="Submit">
           </form>
