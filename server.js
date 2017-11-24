@@ -36,6 +36,10 @@ app.use("/styles", sass({
 }));
 app.use(express.static("public"));
 
+// handle favicon weirdness
+app.get('/favicon.ico', function(req, res) {
+    res.status(204);
+});
 
 // Home page
 app.get("/", (req, res) => {
