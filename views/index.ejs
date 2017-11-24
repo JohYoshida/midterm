@@ -8,7 +8,6 @@
 
   <body>
     <% include ./partials/header.ejs %>
-    <script type="text/javascript" src="/scripts/asyncButton.js"></script>
 
     <div class="container">
       <div class="jumbotron">
@@ -45,6 +44,15 @@
             </div>
 
           </form>
+
+          <div class="alert alert-danger">
+            <!-- alerts go here -->
+          </div>
+          <div class="buttons">
+            <!-- these buttons appear on form submission -->
+            <button class="btn btn-primary" type="button" name="button">Poll</button>
+            <button class="btn btn-secondary" type="button" name="button">Results</button>
+          </div>
         </div>
       </div>
     </div>
