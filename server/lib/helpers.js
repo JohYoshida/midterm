@@ -1,8 +1,8 @@
 require('dotenv').config();
 
-const ENV         = process.env.ENV || "development";
-const knexConfig  = require("../knexfile");
-const knex        = require("knex")(knexConfig[ENV]);
+const ENV         = process.env.ENV || 'development';
+const knexConfig  = require('../knexfile');
+const knex        = require('knex')(knexConfig[ENV]);
 
 module.exports = {
   generateRandomChars: function (chars, length) {
@@ -13,8 +13,8 @@ module.exports = {
     return result;
   },
 
-//to use this go let route_path = checkForDupe(generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6));
-// the route_path variable now has the unique routePath to be placed in the polls table
+  //to use this go let route_path = checkForDupe(generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6));
+  // the route_path variable now has the unique routePath to be placed in the polls table
   checkForDupe: function (path) {
     const charsForPath = '0123456789abcdefghijklmnopqrstuvwxyz';
 
@@ -27,7 +27,7 @@ module.exports = {
             console.log('we have a dupe');
             return checkForDupe(generateRandomChars(charsForPath, 6));
           }
-        };
+        }
         //console.log('inside checkForDupe: ', path);
         return path;
       });

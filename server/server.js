@@ -1,16 +1,16 @@
-"use strict";
+'use strict';
 
 require('dotenv').config();
 
 const PORT        = process.env.PORT || 8080;
-const ENV         = process.env.ENV || "development";
-const express     = require("express");
-const bodyParser  = require("body-parser");
-const sass        = require("node-sass-middleware");
+const ENV         = process.env.ENV || 'development';
+const express     = require('express');
+const bodyParser  = require('body-parser');
+const sass        = require('node-sass-middleware');
 const app         = express();
 
-const knexConfig  = require("./knexfile");
-const knex        = require("knex")(knexConfig[ENV]);
+const knexConfig  = require('./knexfile');
+const knex        = require('knex')(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
 
@@ -26,24 +26,24 @@ app.use(morgan('dev'));
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
 
-app.set("view engine", "ejs");
+app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use("/styles", sass({
-  src: __dirname + "/styles",
-  dest: __dirname + "/public/styles",
+app.use('/styles', sass({
+  src: __dirname + '/styles',
+  dest: __dirname + '/public/styles',
   debug: true,
   outputStyle: 'expanded'
 }));
-app.use(express.static("public"));
+app.use(express.static('public'));
 
 
 // Home page
-app.get("/", (req, res) => {
-  res.render("index");
+app.get('/', (req, res) => {
+  res.render('index');
 });
 
 // main page POST
-app.post("/", (req, res) => {
+app.post('/', (req, res) => {
 // testing routePaths
   const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
   //const route_path_not_dupe = helpers.checkForDupe(generatedNum);     WILL WORK ON THIS LATER
@@ -99,7 +99,7 @@ function printAll(table){
 
 
 // Poll page
-app.get("/:id", (req, res) => {
+app.get('/:id', (req, res) => {
   let tempId = req.params.id
   knex('polls')
     .where({ routePath: tempId})
@@ -119,7 +119,7 @@ app.get("/:id", (req, res) => {
             pollRoutePath: polls[0].routePath,
             optionsArr: options
           }
-        res.render("poll", templateVars);
+        res.render('poll', templateVars);
       });
   });
 
@@ -127,16 +127,16 @@ app.get("/:id", (req, res) => {
 });
 
 // poll page POST
-app.post("/poll", (req, res) => {
+app.post('/poll', (req, res) => {
 //fill me with javascript please for when the user submits poll rankins
 });
 
 // Poll results page
-app.get("/poll/results", (req, res) => {
-  res.render("results");
+app.get('/poll/results', (req, res) => {
+  res.render('results');
 });
 
 app.listen(PORT, () => {
-  console.log("Example app listening on port " + PORT);
+  console.log('Example app listening on port ' + PORT);
 });
 // console.log(helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6));

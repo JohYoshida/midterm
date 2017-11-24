@@ -1,1 +1,1 @@
-dragula([document.querySelector(".options")]);
+dragula([document.querySelector('.options')]);
