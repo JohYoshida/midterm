@@ -9,14 +9,14 @@ const bodyParser  = require("body-parser");
 const sass        = require("node-sass-middleware");
 const app         = express();
 
-const knexConfig  = require("./knexfile");
+const knexConfig  = require("../knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
 const mailgun     = require('./mailgun');
 
 
-const helpers = require('./public/scripts/helpers.js');
+const helpers = require('./lib/helpers.js');
 
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
@@ -53,46 +53,28 @@ app.post("/", (req, res) => {
   //const route_path_not_dupe = helpers.checkForDupe(generatedNum);     WILL WORK ON THIS LATER
   //console.log('checking route_path_not_dupe: ', route_path_not_dupe);
 
+  //fill me with javascript please for when the creator submits the initial form
   const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
 
-   //mailgun(req.body, generatedNum, "createPoll");
-
-  knex('polls')
-    .insert({
-      poll_title: req.body.title,
-      email: req.body.email,
-      routePath: generatedNum
-    })
-    .returning('*')
+  helpers.insertIntoPollsTable(req.body, generatedNum)
     .then((polls) => {
       const optionArray = req.body.option;
       let i = 0;
 
       optionArray.forEach(value => {
-        knex('options')
-          .select('*')
-          .returning('*')
+        helpers.fetchOptions()
           .then((option) => {
             console.log('Option:', value, "Description:", req.body.description[i]);
 
             if (value !== '' ){
-              knex('options')
-                .insert({
-                  option_title: value,
-                  description: req.body.description[i],
-                  poll_id: polls[0].id
-                })
+              helpers.insertIntoOptionsTable(value, req.body.description[i], polls[0])
                 .then();
               i++;
             }
           });
       });
     })
-    .then(() => {
-      // console.log(printAll('options'));
-      //sconsole.log(printAll('polls'));
-    });
-
+    .then();
 
 
   let responseObject = {pollRoutePath: generatedNum};
@@ -100,28 +82,12 @@ app.post("/", (req, res) => {
   res.send(data);
 });
 
-//used for testing
-function printAll(table){
-  knex.select('*')
-    .from(table)
-    .asCallback(function(err, rows) {
-      console.log(rows);
-    });
-}
-
-
 // Poll page
 app.get("/:id", (req, res) => {
   let tempId = req.params.id;
-  knex('polls')
-    .where({ routePath: tempId})
-    .select('*')
-    .returning('*')
+  helpers.fetchPollAtRoutePath(tempId)
     .then((polls) => {
-      knex('options')
-        .where({ poll_id: polls[0].id })
-        .select('*')
-        .returning('*')
+      helpers.fetchOptionsAtPollId(polls[0])
         .then((options) => {
           let templateVars = {
             id: tempId,
@@ -138,27 +104,14 @@ app.get("/:id", (req, res) => {
 // poll page POST
 app.post("/:id", (req, res) => {
   //fill me with javascript please for when the user submits poll rankins
-
   let pollId = req.headers.referer.slice(-6);
-
-  knex('polls')
-    .where({ routePath: pollId})
-    .select('*')
+  helpers.fetchPollAtRoutePath(pollId)
     .then(polls => {
-      //console.log('SEBASTIANS TEST: ', polls);
-     // mailgun(polls[0], pollId, "submitVote");
-      knex('options')
-        .where({ poll_id: polls[0].id })
-        .select('*')
-        .returning('*')
+      helpers.fetchOptionsAtPollId(polls[0])
         .then((options) => {
           for (let option in options) {
             console.log("Title", options[option].option_title, 'ID:', options[option].id, 'Score:', req.body[options[option].option_title]);
-            knex("ratings")
-              .insert({
-                rating: req.body[options[option].option_title],
-                option_id: options[option].id
-              })
+            helpers.insertIntoRatingsTable(req.body, options[option])
               .then();
           }
         });
@@ -177,6 +130,7 @@ app.get("/:id/results", (req, res) => {
     .join('options', 'options.id', 'ratings.option_id')
     .join('polls', 'polls.id', 'options.poll_id')
     .where({ routePath: pollId })
+    // helpers.fetchRatingsAtPollId(pollId)
     .then((queryResults) => {
       queryResults.forEach(result => {
         // add poll_title and email to templateVars
@@ -194,16 +148,19 @@ app.get("/:id/results", (req, res) => {
         }
         if (isInTemplateVars) {
           // add result rating to option
-          templateVars.options[i].rating.push(result.rating);
+          templateVars.options[i].ratings.push(result.rating);
+          templateVars.options[i].totalScore += result.rating
         } else {
           // add option to options array
           templateVars.options.push({
             optionId: result.option_id,
-            rating: [result.rating],
+            ratings: [result.rating],
+            totalScore: result.rating,
             option_title: result.option_title,
             desc: result.description
           });
         }
+        console.log(templateVars.options[i].rating);
       });
       // Remove placeholder
       let removeFirst = templateVars.options.shift();
