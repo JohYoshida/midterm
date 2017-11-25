@@ -10,20 +10,21 @@
 
     <div class="container main">
       <div class="jumbotron">
-        <h1>Title</h1>
-        <p>created by email@email.com</p>
+        <h1><%= pollTitle %></h1>
+        <p>created by <%= email %></p>
       </div>
       <div class="panel panel-default">
         <div class="panel-body">
           <form class="" action="poll.html" method="post">
             <!-- options -->
-            <% templates.forEach(function(template) { %>
+            <% options.forEach(function(option) { %>
               <div class="panel panel-default">
                 <div class="panel-body">
-                  <h3>Title <%= template.option_title %></h3>
-                  <p>Description <%= template.desc %></p>
-                  <p>Option ID <%= template.optionId %></p>
-                  <p>Rating <%= (template.rating.reduce(function(acc, val){return acc + val}) / template.rating.length).toFixed(2)  %></p>
+                  <h3><%= option.option_title %></h3>
+                  <p><%= option.desc %></p>
+                  <p>Option ID <%= option.optionId %></p>
+                  <p>Relative Rating <%= option.rating / options.length %></p>
+                  <p>Points <%= option.rating %></p>
                 </div>
               </div>
             <% }); %>
