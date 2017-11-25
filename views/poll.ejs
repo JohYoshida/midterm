@@ -24,7 +24,7 @@
               <% for (let option in optionsArr) { %>
               <div class="panel panel-default">
                 <div class="panel-body">
-                  <h3> <%= optionsArr[option].title %> </h3>
+                  <h3><%= optionsArr[option].title %></h3>
                   <p><%= optionsArr[option].description %></p>
                   <p>Rating</p>
                 </div>
@@ -38,7 +38,7 @@
     </div>
 
     <% include ./partials/footer.ejs %>
-    <script src="/scripts/thank-you.js"></script>
+    <script src="/scripts/ratings-button.js"></script>
     <!-- Dragula -->
     <script src='https://rawgit.com/bevacqua/dragula/master/dist/dragula.js'></script>
     <script type="text/javascript" src="/scripts/poll-dragula.js"></script>

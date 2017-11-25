@@ -36,6 +36,10 @@ app.use("/styles", sass({
 }));
 app.use(express.static("public"));
 
+// handle favicon weirdness
+app.get('/favicon.ico', (req, res) => {
+  res.status(204);
+});
 
 // Home page
 app.get("/", (req, res) => {
@@ -48,8 +52,7 @@ app.post("/", (req, res) => {
   const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
   //const route_path_not_dupe = helpers.checkForDupe(generatedNum);     WILL WORK ON THIS LATER
   //console.log('checking route_path_not_dupe: ', route_path_not_dupe);
-//fill me with javascript please for when the creator submits the initial form
-
+  //fill me with javascript please for when the creator submits the initial form
   knex('polls')
     .insert({
       title: req.body.title,
@@ -61,14 +64,13 @@ app.post("/", (req, res) => {
       const optionArray = req.body.option;
       let i = 0;
 
-      optionArray.forEach(function(value){
+      optionArray.forEach(value => {
         knex('options')
           .select('*')
           .returning('*')
           .then((option) => {
-            console.log('*****option!!!!!:   ', value);
+            console.log('Option:', value, "Description:", req.body.description[i]);
             if (value !== '' ){
-              //console.log('COUNT IT');
               knex('options')
                 .insert({
                   title: value,
@@ -78,19 +80,17 @@ app.post("/", (req, res) => {
                 .then();
               i++;
             }
-          })
-
-      })
+          });
+      });
     })
     .then(() => {
-     // console.log(printAll('options'));
+      // console.log(printAll('options'));
       //sconsole.log(printAll('polls'));
     });
 
 
   let responseObject = {pollRoutePath: generatedNum};
   let data = JSON.stringify(responseObject);
-  console.log(data);
   res.send(data);
 });
 
@@ -100,13 +100,13 @@ function printAll(table){
     .from(table)
     .asCallback(function(err, rows) {
       console.log(rows);
-    })
+    });
 }
 
 
 // Poll page
 app.get("/:id", (req, res) => {
-  let tempId = req.params.id
+  let tempId = req.params.id;
   knex('polls')
     .where({ routePath: tempId})
     .select('*')
@@ -117,24 +117,45 @@ app.get("/:id", (req, res) => {
         .select('*')
         .returning('*')
         .then((options) => {
-
           let templateVars = {
-            id : tempId,
+            id: tempId,
             pollTitle: polls[0].title,
             pollEmail: polls[0].email,
             pollRoutePath: polls[0].routePath,
             optionsArr: options
-          }
-        res.render("poll", templateVars);
-      });
-  });
-
-
+          };
+          res.render("poll", templateVars);
+        });
+    });
 });
 
 // poll page POST
-app.post("/poll", (req, res) => {
-//fill me with javascript please for when the user submits poll rankins
+app.post("/:id", (req, res) => {
+  //fill me with javascript please for when the user submits poll rankins
+
+  let pollId = req.headers.referer.slice(-6);
+
+  knex('polls')
+    .where({ routePath: pollId})
+    .select('*')
+    .then(polls => {
+      knex('options')
+        .where({ poll_id: polls[0].id })
+        .select('*')
+        .returning('*')
+        .then((options) => {
+          for (let option in options) {
+            console.log(options[option].title, 'ID:', options[option].id, 'Score:', req.body[options[option].title]);
+            knex("ratings")
+              .where({ option_id: options[option].id })
+              .insert({
+                rating: req.body[options[option].title],
+                option_id: options[option].id
+              });
+          }
+        });
+    });
+  res.status(200).send();
 });
 
 // Poll results page
@@ -145,4 +166,3 @@ app.get("/:id/results", (req, res) => {
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
-// console.log(helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6));
