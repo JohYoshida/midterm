@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <
+
   <head>
     <title>Home Page</title>
     <% include ./partials/head.ejs %>
@@ -9,7 +9,7 @@
   <body>
     <% include ./partials/header.ejs %>
 
-    <div class="container">
+    <div class="container main">
       <div class="jumbotron">
         <h1>Decision Maker</h1>
         <p>Decision making made easy</p>
@@ -17,24 +17,24 @@
 
       <div class="panel panel-default">
         <div class="panel-body">
-          <form class="form" action="/" method="post" id="new-poll">
+          <form class="form create-poll" action="/" method="post" id="new-poll">
 
-            <div class="">
+            <div class="form-group">
               <label for="poll-title">Poll Title</label>
-              <input id="poll-title" class="form-control" type="text" name="title" value="" placeholder="title">
+              <input id="poll-title" class="form-control" type="text" name="title" value="" placeholder="Title">
             </div>
-            <div class="">
+            <div class="form-group">
               <label for="poll-email">Email</label>
-              <input id="poll-email" class="form-control" type="email" name="email" value="" placeholder="email">
+              <input id="poll-email" class="form-control" type="email" name="email" value="" placeholder="Email">
             </div>
-            <div class="input-group">
-              <label for="">Option</label>
-              <input class="form-control option" type="text" name="option" value="" placeholder="option">
+            <div class="form-group input-group">
+              <label for="option-1">Option 1</label>
+              <input id="option-1" class="form-control option" type="text" name="option" value="" placeholder="Enter poll option">
               <input class="form-control" type="text" name="description" value="" placeholder="description">
             </div>
-            <div class="input-group">
-              <label for="">Option</label>
-              <input class="form-control option" type="text" name="option" value="" placeholder="option">
+            <div class="form-group input-group">
+              <label for="option-2">Option 2</label>
+              <input id="option-2" class="form-control option" type="text" name="option" value="" placeholder="Enter poll option">
               <input class="form-control" type="text" name="description" value="" placeholder="description">
             </div>
             <!-- more options appear here -->
@@ -50,8 +50,9 @@
           </div>
           <div class="buttons">
             <!-- these buttons appear on form submission -->
-            <button class="btn btn-primary" id="vote" type="button" name="button">Poll</button>
-            <button class="btn btn-secondary" id="results" type="button" name="button">Results</button>
+            <button class="btn btn-primary btn-poll" id="vote" type="button" name="button">Poll</button>
+            <button class="btn btn-primary" id="results" type="button" name="button">Results</button>
+            <p class="submission-message">Thank you for submitting your poll.  An email will be sent to you with links to the voting page and the results page.</p>
           </div>
         </div>
       </div>

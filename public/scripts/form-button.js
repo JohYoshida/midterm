@@ -6,6 +6,7 @@ $(() => {
   //If all goes well submits the users inputted information to the server and displays the buttons that redirect them to
   //their voting and results page
   $("#submit").on("click", event => {
+    event.preventDefault();
 
     //Defining variable used to hold the specific routePath for the newly created poll
     let routePathUrl = '';
@@ -24,7 +25,6 @@ $(() => {
       $(".alert-danger").slideDown().append("<p>Please include your email!</p>")
     } else {
       //Displays the buttons that take the user to the associated pages for their newly created poll and hides the form
-      event.preventDefault();
       $(".buttons").slideDown();
       $(".form").slideUp();
 
@@ -52,7 +52,7 @@ $(() => {
       //Redirects the user to the page to view the results for thie poll
       $("#results").on("click", (event) => {
         event.stopPropagation();
-        window.location.replace(`http://localhost:8080/${longurl.pollRoutePath}/results`);
+        window.location.replace(`http://localhost:8080/${routePathUrl.pollRoutePath}/results`);
       });
     }
   });

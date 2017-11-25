@@ -8,11 +8,12 @@
   <body>
     <% include ./partials/header.ejs %>
 
-    <div class="container">
+    <div class="container main">
       <div class="jumbotron">
-        <h1><%= pollTitle %></h1>
-        <p>created by <%= pollEmail %></p>
-        <h2>Drag and drop options to rank your choices</h2>
+        <h1>Poll name: <%= pollTitle %></h1>
+        <p>Created by: <%= pollEmail %></p>
+        <h2>Please rank your choices below by draging and dropping the options.</h2>
+        <p>When submitted the options will be scored according to their order from top to bottom.</p>
       </div>
 
       <div class="panel panel-default">
@@ -24,7 +25,7 @@
               <% for (let option in optionsArr) { %>
               <div class="panel panel-default">
                 <div class="panel-body">
-                  <h3> <%= optionsArr[option].title %> </h3>
+                  <h3><%= optionsArr[option].option_title %></h3>
                   <p><%= optionsArr[option].description %></p>
                   <p>Rating</p>
                 </div>
@@ -38,7 +39,7 @@
     </div>
 
     <% include ./partials/footer.ejs %>
-    <script src="/scripts/thank-you.js"></script>
+    <script src="/scripts/ratings-button.js"></script>
     <!-- Dragula -->
     <script src='https://rawgit.com/bevacqua/dragula/master/dist/dragula.js'></script>
     <script type="text/javascript" src="/scripts/poll-dragula.js"></script>
