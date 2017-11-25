@@ -8,11 +8,12 @@
   <body>
     <% include ./partials/header.ejs %>
 
-    <div class="container">
+    <div class="container main">
       <div class="jumbotron">
-        <h1><%= pollTitle %></h1>
-        <p>created by <%= pollEmail %></p>
-        <h2>Drag and drop options to rank your choices</h2>
+        <h1>Poll name: <%= pollTitle %></h1>
+        <p>Created by: <%= pollEmail %></p>
+        <h2>Please rank your choices below by draging and droping the options.</h2>
+        <p>When submitted the options will be scored according to their order from top to bottom.</p>
       </div>
 
       <div class="panel panel-default">
