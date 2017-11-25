@@ -7,3 +7,10 @@
   color: #337ab7;
   font-size: 12px;
 }
+
+/* Small devices (tablets, 768px and down) */
+@media (max-width: 767px) {
+  .copyright {
+    margin-top: 15px;
+  }
+}

@@ -12,13 +12,9 @@ $(() => {
             created = true;
             $(".button").before($("<div class='input-group'></div>")
             .append($(`<label for='option-${i}'>Option ${i}</label>`))
-<<<<<<< HEAD
-            .append($(`<input id="option-${i}" class='option form-control' type='text' name='option-${i}' value='' placeholder='Enter poll option'>`))
-            .append($("<input class='option form-control' type='text' name='description' value='' placeholder='Description'>")));
-=======
             .append($(`<input id="option-${i}" class='option form-control' type='text' name='option' value='' placeholder='Enter poll option'>`))
             .append($("<input class='option form-control' type='text' name='description' value='' placeholder='description'>")));
->>>>>>> dev
+
             $(".option").off();
             addInputGroup();
             i++
