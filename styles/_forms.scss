@@ -1,0 +1,18 @@
+.create-poll .input-group {
+  display: block;
+}
+
+.create-poll .form-control {
+  float: none;
+}
+
+.form.create-poll .input-group.form-group input {
+  border-radius: 4px;
+}
+
+.input-group .option {
+  margin-bottom: 5px;
+}
+.form-group:first-child {
+  margin-top: -5px;
+}
