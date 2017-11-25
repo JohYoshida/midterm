@@ -53,7 +53,6 @@ app.post("/", (req, res) => {
   //const route_path_not_dupe = helpers.checkForDupe(generatedNum);     WILL WORK ON THIS LATER
   //console.log('checking route_path_not_dupe: ', route_path_not_dupe);
   //fill me with javascript please for when the creator submits the initial form
-
   knex('polls')
     .insert({
       title: req.body.title,
