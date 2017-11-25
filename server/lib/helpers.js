@@ -4,32 +4,95 @@ const ENV         = process.env.ENV || "development";
 const knexConfig  = require("../../knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 
-module.exports = {
-  generateRandomChars: function (chars, length) {
-    let result = '';
-    for (let i = length; i > 0; --i) {
-      result += chars[Math.floor(Math.random() * chars.length)];
-    }
-    return result;
-  },
+const insertIntoPollsTable = (body, pollId) => {
+  return knex('polls')
+    .insert({
+      poll_title: body.title,
+      email: body.email,
+      routePath: pollId
+    })
+    .returning('*');
+}
 
-//to use this go let route_path = checkForDupe(generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6));
-// the route_path variable now has the unique routePath to be placed in the polls table
-  checkForDupe: function (path) {
-    const charsForPath = '0123456789abcdefghijklmnopqrstuvwxyz';
+const insertIntoOptionsTable = (title, description, poll) => {
+  return knex('options')
+    .insert({
+      option_title: title,
+      description: description,
+      poll_id: poll.id
+    })
+}
 
-    knex('polls')
-      .returning('*')
-      .then((polls) => {
-        for (let n = 0; n < polls.length; n++){
-          //console.log(n);
-          if (polls[n].routePath === path) {
-            console.log('we have a dupe');
-            return checkForDupe(generateRandomChars(charsForPath, 6));
-          }
-        };
-        //console.log('inside checkForDupe: ', path);
-        return path;
-      });
+const insertIntoRatingsTable = (body, option) => {
+  return knex("ratings")
+    .insert({
+      rating: body[option.option_title],
+      option_id: option.id
+    });
+}
+
+const fetchPolls = () => {
+  return knex('polls').returning('*');
+}
+
+const fetchOptions = () => {
+  return knex('options')
+    .select('*')
+    .returning('*');
+}
+
+const fetchRatingsAtPollId = (id) => {
+  return knex('ratings')
+    .join('options', 'options.id', 'ratings.option_id')
+    .join('polls', 'polls.id', 'options.poll_id')
+    .where({ routePath: id });
+}
+
+const fetchPollAtRoutePath = (id) => {
+  return knex('polls')
+    .where({ routePath: id})
+    .select('*')
+    .returning('*');
+}
+
+const fetchOptionsAtPollId = (poll) => {
+  return knex('options')
+    .where({ poll_id: poll.id })
+    .select('*')
+    .returning('*');
+}
+
+const generateRandomChars = (chars, length) => {
+  let result = '';
+  for (let i = length; i > 0; --i) {
+    result += chars[Math.floor(Math.random() * chars.length)];
   }
+  return result;
+}
+
+const checkForDupe = (path) => {
+  const charsForPath = '0123456789abcdefghijklmnopqrstuvwxyz';
+
+  return fetchPolls()
+    .then((polls) => {
+      for (let n = 0; n < polls.length; n++){
+        if (polls[n].routePath === path) {
+          console.log('we have a dupe');
+          return checkForDupe(generateRandomChars(charsForPath, 6));
+        }
+      };
+      return path;
+    });
+}
+
+module.exports = {
+  generateRandomChars: generateRandomChars,
+  fetchPolls: fetchPolls,
+  fetchOptions: fetchOptions,
+  fetchPollAtRoutePath: fetchPollAtRoutePath,
+  fetchOptionsAtPollId: fetchOptionsAtPollId,
+  fetchRatingsAtPollId: fetchRatingsAtPollId,
+  insertIntoPollsTable: insertIntoPollsTable,
+  insertIntoOptionsTable: insertIntoOptionsTable,
+  insertIntoRatingsTable: insertIntoRatingsTable
 };
