@@ -20,7 +20,7 @@
             <% templates.forEach(function(template) { %>
               <div class="panel panel-default">
                 <div class="panel-body">
-                  <h3>Title <%= template.title %></h3>
+                  <h3>Title <%= template.option_title %></h3>
                   <p>Description <%= template.desc %></p>
                   <p>Option ID <%= template.optionId %></p>
                   <p>Rating <%= (template.rating.reduce(function(acc, val){return acc + val}) / template.rating.length).toFixed(2)  %></p>

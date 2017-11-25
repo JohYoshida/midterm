@@ -12,7 +12,7 @@
       <div class="jumbotron">
         <h1>Poll name: <%= pollTitle %></h1>
         <p>Created by: <%= pollEmail %></p>
-        <h2>Please rank your choices below by draging and droping the options.</h2>
+        <h2>Please rank your choices below by draging and dropping the options.</h2>
         <p>When submitted the options will be scored according to their order from top to bottom.</p>
       </div>
 
@@ -25,7 +25,7 @@
               <% for (let option in optionsArr) { %>
               <div class="panel panel-default">
                 <div class="panel-body">
-                  <h3><%= optionsArr[option].title %></h3>
+                  <h3><%= optionsArr[option].option_title %></h3>
                   <p><%= optionsArr[option].description %></p>
                   <p>Rating</p>
                 </div>

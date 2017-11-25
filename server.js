@@ -73,7 +73,7 @@ app.post("/", (req, res) => {
             if (value !== '' ){
               knex('options')
                 .insert({
-                  title: value,
+                  option_title: value,
                   description: req.body.description[i],
                   poll_id: polls[0].id
                 })
@@ -119,7 +119,7 @@ app.get("/:id", (req, res) => {
         .then((options) => {
           let templateVars = {
             id: tempId,
-            pollTitle: polls[0].title,
+            pollTitle: polls[0].poll_title,
             pollEmail: polls[0].email,
             pollRoutePath: polls[0].routePath,
             optionsArr: options
@@ -145,11 +145,13 @@ app.post("/:id", (req, res) => {
         .returning('*')
         .then((options) => {
           for (let option in options) {
-            console.log(options[option].title, 'ID:', options[option].id, 'Score:', req.body[options[option].title]);
+            console.log("body", req.body);
+            console.log("option", options[option]);
+            console.log(options[option].option_title, 'ID:', options[option].id, 'Score:', req.body[options[option].option_title]);
             knex("ratings")
               // .where({ option_id: options[option].id })
               .insert({
-                rating: req.body[options[option].title] -1,
+                rating: req.body[options[option].option_title] -1,
                 option_id: options[option].id
               })
               .then();
@@ -191,7 +193,7 @@ app.get("/:id/results", (req, res) => {
           templateVars.templates.push({
             optionId: template.option_id,
             rating: [template.rating],
-            title: template.title,
+            option_title: template.option_title,
             desc: template.description
           });
           console.log(templateVars.templates);
