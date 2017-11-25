@@ -55,7 +55,7 @@ app.post("/", (req, res) => {
 
   const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
 
-   mailgun(req.body, generatedNum, "createPoll");
+   //mailgun(req.body, generatedNum, "createPoll");
 
   knex('polls')
     .insert({
@@ -146,7 +146,7 @@ app.post("/:id", (req, res) => {
     .select('*')
     .then(polls => {
       //console.log('SEBASTIANS TEST: ', polls);
-      mailgun(polls[0], pollId, "submitVote");
+     // mailgun(polls[0], pollId, "submitVote");
       knex('options')
         .where({ poll_id: polls[0].id })
         .select('*')
