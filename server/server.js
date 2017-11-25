@@ -9,13 +9,13 @@ const bodyParser  = require("body-parser");
 const sass        = require("node-sass-middleware");
 const app         = express();
 
-const knexConfig  = require("./knexfile");
+const knexConfig  = require("../knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
 
 
-const helpers = require('./public/scripts/helpers.js');
+const helpers = require('./lib/helpers.js');
 
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
