@@ -55,7 +55,7 @@ app.post("/", (req, res) => {
 
   const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
 
-   mailgun(req.body, generatedNum);
+   mailgun(req.body, generatedNum, "createPoll");
 
   knex('polls')
     .insert({
@@ -74,6 +74,7 @@ app.post("/", (req, res) => {
           .returning('*')
           .then((option) => {
             console.log('Option:', value, "Description:", req.body.description[i]);
+
             if (value !== '' ){
               knex('options')
                 .insert({
