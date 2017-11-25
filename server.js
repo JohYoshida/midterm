@@ -145,6 +145,8 @@ app.post("/:id", (req, res) => {
     .where({ routePath: pollId})
     .select('*')
     .then(polls => {
+      //console.log('SEBASTIANS TEST: ', polls);
+      mailgun(polls[0], pollId, "submitVote");
       knex('options')
         .where({ poll_id: polls[0].id })
         .select('*')

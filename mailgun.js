@@ -34,7 +34,7 @@ module.exports = function (body, routePath, sendType) {
   description: [ 'pocahtod', 'zuwov' ] }
    */
 
-  if (sendType === createPoll) {
+  if (sendType === 'createPoll') {
     data.text = `Thank you for submitting the poll: ${body.title}\n
                 http://localhost:8080/${routePath} - Used for voting on your poll\n
                 http://localhost:8080/${routePath}/results - View results here`
@@ -42,10 +42,10 @@ module.exports = function (body, routePath, sendType) {
     data.subject = `Your new poll: ${body.title}`
 
   } else {
-    data.text = `You received a vote submission: on poll: ${body.title}\n
+    data.text = `You received a vote submission on poll: ${body.poll_title}\n
                 Please visit http://localhost:8080/${routePath}/results to view the current results`
 
-    data.subject = `A poll sumbission on: ${body.title}`
+    data.subject = `Your Poll '${body.poll_title}' Has Been Voted On`
   }
 
   data.to = `${body.email}`
