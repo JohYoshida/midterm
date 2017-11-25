@@ -147,11 +147,12 @@ app.post("/:id", (req, res) => {
           for (let option in options) {
             console.log(options[option].title, 'ID:', options[option].id, 'Score:', req.body[options[option].title]);
             knex("ratings")
-              .where({ option_id: options[option].id })
+              // .where({ option_id: options[option].id })
               .insert({
                 rating: req.body[options[option].title],
                 option_id: options[option].id
-              });
+              })
+              .then();
           }
         });
     });
@@ -160,6 +161,31 @@ app.post("/:id", (req, res) => {
 
 // Poll results page
 app.get("/:id/results", (req, res) => {
+  let pollId = req.params.id;
+  knex('polls')
+    .where({ routePath: pollId })
+    .select('*')
+    .returning('*')
+    .then(polls => {
+      console.log("Polls:", polls);
+      knex('options')
+        .where({ poll_id: polls[0].id })
+        .select('*')
+        .returning('*')
+        .then(options => {
+          for (let option in options) {
+            console.log("Option:", option, options[option]);
+            knex('ratings')
+            .where({ option_id: options[option].id})
+            .select('*')
+            .returning('*')
+            .then(ratings => {
+              console.log("Ratings:", ratings);
+            });
+          }
+        });
+    });
+
   res.render("results");
 });
 
