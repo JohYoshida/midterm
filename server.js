@@ -51,7 +51,7 @@ app.post("/", (req, res) => {
 //fill me with javascript please for when the creator submits the initial form
   const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
 
-   mailgun(req.body, generatedNum);
+   mailgun(req.body, generatedNum, createPoll);
 
   knex('polls')
     .insert({
