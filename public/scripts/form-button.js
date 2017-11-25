@@ -52,7 +52,7 @@ $(() => {
       //Redirects the user to the page to view the results for thie poll
       $("#results").on("click", (event) => {
         event.stopPropagation();
-        window.location.replace(`http://localhost:8080/${longurl.pollRoutePath}/results`);
+        window.location.replace(`http://localhost:8080/${routePathUrl.pollRoutePath}/results`);
       });
     }
   });
