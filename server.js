@@ -55,7 +55,7 @@ app.post("/", (req, res) => {
   //fill me with javascript please for when the creator submits the initial form
   knex('polls')
     .insert({
-      title: req.body.title,
+      poll_title: req.body.title,
       email: req.body.email,
       routePath: generatedNum
     })
@@ -73,7 +73,7 @@ app.post("/", (req, res) => {
             if (value !== '' ){
               knex('options')
                 .insert({
-                  title: value,
+                  option_title: value,
                   description: req.body.description[i],
                   poll_id: polls[0].id
                 })
@@ -119,7 +119,7 @@ app.get("/:id", (req, res) => {
         .then((options) => {
           let templateVars = {
             id: tempId,
-            pollTitle: polls[0].title,
+            pollTitle: polls[0].poll_title,
             pollEmail: polls[0].email,
             pollRoutePath: polls[0].routePath,
             optionsArr: options
@@ -145,13 +145,16 @@ app.post("/:id", (req, res) => {
         .returning('*')
         .then((options) => {
           for (let option in options) {
-            console.log(options[option].title, 'ID:', options[option].id, 'Score:', req.body[options[option].title]);
+            console.log("body", req.body);
+            console.log("option", options[option]);
+            console.log(options[option].option_title, 'ID:', options[option].id, 'Score:', req.body[options[option].option_title]);
             knex("ratings")
-              .where({ option_id: options[option].id })
+              // .where({ option_id: options[option].id })
               .insert({
-                rating: req.body[options[option].title],
+                rating: req.body[options[option].option_title] -1,
                 option_id: options[option].id
-              });
+              })
+              .then();
           }
         });
     });
@@ -160,7 +163,89 @@ app.post("/:id", (req, res) => {
 
 // Poll results page
 app.get("/:id/results", (req, res) => {
-  res.render("results");
+  let pollId = req.params.id;
+  let templateVars = {templates: ["oh"]};
+
+  knex('ratings')
+    .join('options', 'options.id', 'ratings.option_id')
+    .join('polls', 'polls.id', 'options.poll_id')
+    .where({ routePath: pollId })
+    .then((ratings) => {
+      // console.log(ratings);
+      ratings.forEach(template => {
+        // console.log("Template:", template);
+
+        let isInTemplateVars = false;
+        let i = 0;
+        for (let option in templateVars.templates) {
+          console.log("Option:", option);
+          if (template.option_id === templateVars.templates[option].optionId) {
+            isInTemplateVars = true;
+            i = option;
+          }
+        }
+        if (isInTemplateVars) {
+          console.log("Match with", i);
+          templateVars.templates[i].rating.push(template.rating);
+          console.log(templateVars.templates);
+        } else {
+          console.log("New");
+          templateVars.templates.push({
+            optionId: template.option_id,
+            rating: [template.rating],
+            option_title: template.option_title,
+            desc: template.description
+          });
+          console.log(templateVars.templates);
+        }
+        console.log("---");
+      });
+      console.log("Options:", templateVars.templates);
+      let removeFirst = templateVars.templates.shift();
+      console.log("Spliced options:", templateVars.templates);
+
+
+
+      res.render('results', templateVars);
+    });
+
+  // knex('polls')
+  //   .where({ routePath: pollId })
+  //   .select('*')
+  //   .returning('*')
+  //   .then(polls => {
+  //     console.log("Polls:", polls);
+  //     knex('options')
+  //       .where({ poll_id: polls[0].id })
+  //       .select('*')
+  //       .returning('*')
+  //       .then(options => {
+  //         for (let option in options) {
+  //           console.log("Option:", option, options[option]);
+  //           knex('ratings')
+  //           .where({ option_id: options[option].id})
+  //           .select('*')
+  //           .returning('*')
+  //           .then(ratings => {
+  //             console.log("Ratings:", ratings);
+  //             templateVars[`option${option}`] = {
+  //               option_id: options[option].id,
+  //               scores: []
+  //             };
+  //             ratings.forEach(rating => {
+  //               templateVars[`option${option}`].scores.push(rating.rating);
+  //             });
+  //           })
+  //           .then(() => {
+  //             console.log("Template:", templateVars);
+  //             res.render('results', templateVars);
+  //           });
+  //         }
+  //       })
+  //       .then(() => {
+  //         // res.render('results', templateVars);
+  //       });
+  //   });
 });
 
 app.listen(PORT, () => {
