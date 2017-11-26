@@ -22,7 +22,7 @@
         <p>created by <%= email %></p>
       </div>
       <div class="panel panel-default">
-        <div class="panel-body">
+        <div class="panel-body panel-results">
           <form class="" action="poll.html" method="post">
             <!-- options -->
             <% options.forEach(function(option) { %>
@@ -30,8 +30,6 @@
                 <div class="panel-body">
                   <h3><%= option.option_title %></h3>
                   <p><%= option.desc %></p>
-                  <!-- <p>Option ID <%= option.optionId %></p> -->
-                  <p>Relative Rating <%=  %></p>
                   <p>Points <%= option.totalScore / option.ratings.length %></p>
                 </div>
               </div>

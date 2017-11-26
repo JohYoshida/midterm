@@ -30,11 +30,12 @@ app.use(knexLogger(knex));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/styles", sass({
-  src: __dirname + "/styles",
-  dest: __dirname + "/public/styles",
+  src: "./styles",
+  dest:  "./public/styles",
   debug: true,
   outputStyle: 'expanded'
 }));
+console.log(__dirname);
 app.use(express.static("public"));
 
 // handle favicon weirdness
