@@ -159,11 +159,21 @@ app.get("/:id/results", (req, res) => {
             desc: result.description
           });
         }
-        console.log(templateVars.options[i].rating);
+        //console.log(templateVars.options[i].rating);
       });
       // Remove placeholder
       let removeFirst = templateVars.options.shift();
-      console.log("Options:", templateVars);
+      //console.log("Options:", templateVars.options);
+      templateVars.options.sort(function(a, b){
+        if (a.totalScore < b.totalScore) {
+          return 1;
+        }
+        if (a.totalScore > b.totalScore) {
+          return -1;
+        }
+        return 0;
+      });
+      //console.log("Options POST SORT:", templateVars.options);
       res.render('results', templateVars);
     });
 });
