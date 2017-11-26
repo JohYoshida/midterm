@@ -4,7 +4,8 @@ $(() => {
     var lastOption = $(".input-group").last().children(".option");
     lastOption.on("focus", event => {
       var created = false;
-      $(".option").on("keypress", event => {
+      //keydown rather then keypress incase they copy and paste into the field
+      $(".option").on("keydown", event => {
 
         var optionVal = lastOption.val();
         if (!optionVal) {
