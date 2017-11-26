@@ -77,7 +77,6 @@ const checkForDupe = (path) => {
     .then((polls) => {
       for (let n = 0; n < polls.length; n++){
         if (polls[n].routePath === path) {
-          console.log('we have a dupe');
           return checkForDupe(generateRandomChars(charsForPath, 6));
         }
       };

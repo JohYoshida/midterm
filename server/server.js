@@ -35,7 +35,7 @@ app.use("/styles", sass({
   debug: true,
   outputStyle: 'expanded'
 }));
-console.log(__dirname);
+
 app.use(express.static("public"));
 
 // handle favicon weirdness
@@ -50,23 +50,16 @@ app.get("/", (req, res) => {
 
 // main page POST
 app.post("/", (req, res) => {
-// testing routePaths
-  //const route_path_not_dupe = helpers.checkForDupe(generatedNum);     WILL WORK ON THIS LATER
-  //console.log('checking route_path_not_dupe: ', route_path_not_dupe);
-
-  //fill me with javascript please for when the creator submits the initial form
   const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
-
+  //gives us access to the polls table
   helpers.insertIntoPollsTable(req.body, generatedNum)
     .then((polls) => {
       const optionArray = req.body.option;
       const descriptionArray = req.body.description;
-
+      //for each option if it has a value add the option & it's description to database
       optionArray.forEach((value,index) => {
         helpers.fetchOptions()
           .then((option) => {
-            console.log('Option:', value, "Description:", descriptionArray[index]);
-
             if (value !== '' ){
               helpers.insertIntoOptionsTable(value, descriptionArray[index], polls[0])
                 .then();
@@ -75,7 +68,6 @@ app.post("/", (req, res) => {
       });
     })
     .then();
-
 
   let responseObject = {pollRoutePath: generatedNum};
   let data = JSON.stringify(responseObject);
@@ -103,14 +95,13 @@ app.get("/:id", (req, res) => {
 
 // poll page POST
 app.post("/:id", (req, res) => {
-  //fill me with javascript please for when the user submits poll rankins
   let pollId = req.headers.referer.slice(-6);
+
   helpers.fetchPollAtRoutePath(pollId)
     .then(polls => {
       helpers.fetchOptionsAtPollId(polls[0])
         .then((options) => {
           for (let option in options) {
-            console.log("Title", options[option].option_title, 'ID:', options[option].id, 'Score:', req.body[options[option].option_title]);
             helpers.insertIntoRatingsTable(req.body, options[option])
               .then();
           }
@@ -134,7 +125,6 @@ app.get("/:id/results", (req, res) => {
     .join('options', 'options.id', 'ratings.option_id')
     .join('polls', 'polls.id', 'options.poll_id')
     .where({ routePath: pollId })
-    // helpers.fetchRatingsAtPollId(pollId)
     .then((queryResults) => {
       queryResults.forEach(result => {
           // add poll_title and email to templateVars
@@ -164,11 +154,9 @@ app.get("/:id/results", (req, res) => {
             desc: result.description
           });
         }
-        //console.log(templateVars.options[i].rating);
       });
       // Remove placeholder
       let removeFirst = templateVars.options.shift();
-      //console.log("Options:", templateVars.options);
       templateVars.options.sort(function(a, b){
         if (a.totalScore < b.totalScore) {
           return 1;
@@ -178,7 +166,6 @@ app.get("/:id/results", (req, res) => {
         }
         return 0;
       });
-      //console.log("Options POST SORT:", templateVars.options);
       res.render('results', templateVars);
     });
 });
