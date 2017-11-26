@@ -17,13 +17,18 @@ $(() => {
     //Takes the inputted values in the form to and sticks them in variables so they can be checked
     var title = $("#poll-title").val();
     var email = $("#poll-email").val();
+    var option1 = $("#option-1").val();
+    var option2 = $("#option-2").val();
 
     //Checks to see if either of poll title or creator email is empty and unhides the respective alert
     if (!title) {
       $(".alert-danger").slideDown().append("<p>Poll must have a title!</p>")
     } else if (!email) {
       $(".alert-danger").slideDown().append("<p>Please include your email!</p>")
-    } else {
+    } else if (!option1 || !option2) {
+       $(".alert-danger").slideDown().append("<p>Poll must have at least two choices!</p>")
+    }
+    else {
       //Displays the buttons that take the user to the associated pages for their newly created poll and hides the form
       $(".buttons").slideDown();
       $(".form").slideUp();

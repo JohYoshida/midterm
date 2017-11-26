@@ -72,7 +72,6 @@ app.post("/", (req, res) => {
                 .then();
             }
           });
-          i++;
       });
     })
     .then();
