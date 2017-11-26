@@ -33,6 +33,9 @@ Decision Maker is a web app that helps groups of friends to vote on a preferred 
 - pg: 7.4.0
 - nodemon: 1.9.2
 
+## Stretches Complete
+
+- Mobile friendly (responsive design)
 
 ## Getting Started
 
