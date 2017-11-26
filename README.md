@@ -39,6 +39,6 @@ Decision Maker is a web app that helps groups of friends to vote on a preferred 
 
 ## Getting Started
 
-- Install all dependancies (using the 'npm install' command).
-- Run the development web server using 'npm run local' from the project directory
+- Install all dependencies with `npm install` 
+- Run the development web server with `npm run local` from the project directory
 - Enjoy!
