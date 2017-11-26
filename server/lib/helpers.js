@@ -1,8 +1,8 @@
 require('dotenv').config();
 
-const ENV         = process.env.ENV || "development";
-const knexConfig  = require("../../knexfile");
-const knex        = require("knex")(knexConfig[ENV]);
+const ENV         = process.env.ENV || 'development';
+const knexConfig  = require('../../knexfile');
+const knex        = require('knex')(knexConfig[ENV]);
 
 const insertIntoPollsTable = (body, pollId) => {
   return knex('polls')
@@ -12,7 +12,7 @@ const insertIntoPollsTable = (body, pollId) => {
       routePath: pollId
     })
     .returning('*');
-}
+};
 
 const insertIntoOptionsTable = (title, description, poll) => {
   return knex('options')
@@ -20,47 +20,47 @@ const insertIntoOptionsTable = (title, description, poll) => {
       option_title: title,
       description: description,
       poll_id: poll.id
-    })
-}
+    });
+};
 
 const insertIntoRatingsTable = (body, option) => {
-  return knex("ratings")
+  return knex('ratings')
     .insert({
       rating: body[option.option_title],
       option_id: option.id
     });
-}
+};
 
 const fetchPolls = () => {
   return knex('polls').returning('*');
-}
+};
 
 const fetchOptions = () => {
   return knex('options')
     .select('*')
     .returning('*');
-}
+};
 
 const fetchRatingsAtPollId = (id) => {
   return knex('ratings')
     .join('options', 'options.id', 'ratings.option_id')
     .join('polls', 'polls.id', 'options.poll_id')
     .where({ routePath: id });
-}
+};
 
 const fetchPollAtRoutePath = (id) => {
   return knex('polls')
     .where({ routePath: id})
     .select('*')
     .returning('*');
-}
+};
 
 const fetchOptionsAtPollId = (poll) => {
   return knex('options')
     .where({ poll_id: poll.id })
     .select('*')
     .returning('*');
-}
+};
 
 const generateRandomChars = (chars, length) => {
   let result = '';
@@ -68,7 +68,7 @@ const generateRandomChars = (chars, length) => {
     result += chars[Math.floor(Math.random() * chars.length)];
   }
   return result;
-}
+};
 
 const checkForDupe = (path) => {
   const charsForPath = '0123456789abcdefghijklmnopqrstuvwxyz';
@@ -79,19 +79,19 @@ const checkForDupe = (path) => {
         if (polls[n].routePath === path) {
           return checkForDupe(generateRandomChars(charsForPath, 6));
         }
-      };
+      }
       return path;
     });
-}
+};
 
 module.exports = {
-  generateRandomChars: generateRandomChars,
-  fetchPolls: fetchPolls,
-  fetchOptions: fetchOptions,
-  fetchPollAtRoutePath: fetchPollAtRoutePath,
-  fetchOptionsAtPollId: fetchOptionsAtPollId,
-  fetchRatingsAtPollId: fetchRatingsAtPollId,
-  insertIntoPollsTable: insertIntoPollsTable,
-  insertIntoOptionsTable: insertIntoOptionsTable,
-  insertIntoRatingsTable: insertIntoRatingsTable
+  generateRandomChars,
+  fetchPolls,
+  fetchOptions,
+  fetchPollAtRoutePath,
+  fetchOptionsAtPollId,
+  fetchRatingsAtPollId,
+  insertIntoPollsTable,
+  insertIntoOptionsTable,
+  insertIntoRatingsTable
 };
