@@ -102,7 +102,7 @@ app.post('/:id', (req, res) => {
   helpers.fetchPollAtRoutePath(pollId)
     .then(polls => {
       //DO NOT DELETE - this is commented out so emails are not spammed
-      mailgun(polls[0], generatedNum, "submitPoll");
+      mailgun(polls[0], pollId, "submitPoll");
       helpers.fetchOptionsAtPollId(polls[0])
         .then((options) => {
           for (let option in options) {
