@@ -4,13 +4,13 @@
   margin-top: 20px;
   padding-top: 15px;
   padding-bottom: 15px;
-  color: #337ab7;
+  color: $brand-primary;
   font-size: 12px;
 }
 
 /* Small devices (tablets, 768px and down) */
-@media (max-width: 767px) {
+@media (max-width: $screen-xs-max) {
   .copyright {
-    margin-top: 15px;
+    margin-top: 10px;
   }
 }
