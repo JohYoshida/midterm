@@ -9,6 +9,14 @@
     <% include ./partials/header.ejs %>
 
     <div class="container main">
+      <% if (!pollTitle) { %>
+        <div class="panel panel-default">
+          <div class="panel-body">
+          <p>There have been NO votes on your poll<br>
+          <a href='/<%=poll_id%>'>Click Here To Vote On Your Poll</a></p>
+          </div>
+        </div>
+      <% } else { %>
       <div class="jumbotron">
         <h1><%= pollTitle %></h1>
         <p>created by <%= email %></p>
@@ -31,6 +39,7 @@
           </form>
         </div>
       </div>
+      <% }; %>
     </div>
 
     <% include ./partials/footer.ejs %>

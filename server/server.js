@@ -123,7 +123,11 @@ app.get("/:id/results", (req, res) => {
   let pollId = req.params.id;
   // templateVars.options array needs to have something in it to work
   // This placeholder is removed further down
-  let templateVars = {options: ["oh"]};
+  let templateVars = {
+    options: ["oh"],
+    pollTitle: '',
+    poll_id: pollId
+  };
 
   knex('ratings')
     .join('options', 'options.id', 'ratings.option_id')
@@ -132,7 +136,7 @@ app.get("/:id/results", (req, res) => {
     // helpers.fetchRatingsAtPollId(pollId)
     .then((queryResults) => {
       queryResults.forEach(result => {
-        // add poll_title and email to templateVars
+          // add poll_title and email to templateVars
         templateVars.pollTitle = result.poll_title;
         templateVars.email = result.email;
 
