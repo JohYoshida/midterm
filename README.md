@@ -4,15 +4,15 @@ Decision Maker is a web app that helps groups of friends to vote on a preferred 
 
 ## Final Product
 
-!['Main Page With Three Options For The Poll'](PATH TO SCREENSHOTS HERE)
-!['Main Page After A Poll Has Been Submitted'](PATH TO SCREENSHOTS HERE)
+!['Main Page With Three Options For The Poll'](https://github.com/JohYoshida/midterm/blob/dev/docs/mainpage.png)
+!['Main Page After A Poll Has Been Submitted'](https://github.com/JohYoshida/midterm/blob/dev/docs/mainpage-submit.png)
 
-!['Voting Page Showing Drag And Drop'](PATH TO SCREENSHOTS HERE)
-!['Voting Page After A Vote Has Been Submitted'](PATH TO SCREENSHOTS HERE)
+!['Voting Page Showing Drag And Drop'](https://github.com/JohYoshida/midterm/blob/dev/docs/pollspage.png)
+!['Voting Page After A Vote Has Been Submitted'](https://github.com/JohYoshida/midterm/blob/dev/docs/pollspage-submit.png)
 
-!['Results Page'](PATH TO SCREENSHOTS HERE)
+!['Results Page'](https://github.com/JohYoshida/midterm/blob/dev/docs/resultspage.png)
 
-!['Email Sent To Creator After They Submit The Poll'](PATH TO SCREENSHOTS HERE)
+!['Email Sent To Creator After They Submit The Poll'](https://github.com/JohYoshida/midterm/blob/dev/docs/email.png)
 
 
 ## Dependencies
