@@ -51,7 +51,7 @@ app.post('/', (req, res) => {
   const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
 
   //DO NOT DELETE - this is commented out so emails are not spammed
-  mailgun(req.body, generatedNum, "createPoll");
+  mailgun(req.body, generatedNum, 'createPoll');
   //gives us access to the polls table
   helpers.insertIntoPollsTable(req.body, generatedNum)
     .then((polls) => {
