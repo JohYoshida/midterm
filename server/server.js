@@ -13,7 +13,7 @@ const knexConfig  = require("../knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
-const mailgun     = require('./mailgun');
+const mailgun     = require('../mailgun');
 
 
 const helpers = require('./lib/helpers.js');
@@ -59,17 +59,16 @@ app.post("/", (req, res) => {
   helpers.insertIntoPollsTable(req.body, generatedNum)
     .then((polls) => {
       const optionArray = req.body.option;
-      let i = 0;
+      const descriptionArray = req.body.description;
 
-      optionArray.forEach(value => {
+      optionArray.forEach((value,index) => {
         helpers.fetchOptions()
           .then((option) => {
-            console.log('Option:', value, "Description:", req.body.description[i]);
+            console.log('Option:', value, "Description:", descriptionArray[index]);
 
             if (value !== '' ){
-              helpers.insertIntoOptionsTable(value, req.body.description[i], polls[0])
+              helpers.insertIntoOptionsTable(value, descriptionArray[index], polls[0])
                 .then();
-              i++;
             }
           });
       });
