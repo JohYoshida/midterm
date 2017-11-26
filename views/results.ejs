@@ -9,12 +9,20 @@
     <% include ./partials/header.ejs %>
 
     <div class="container main">
+      <% if (!pollTitle) { %>
+        <div class="panel panel-default">
+          <div class="panel-body">
+          <p>There have been NO votes on your poll<br>
+          <a href='/<%=poll_id%>'>Click Here To Vote On Your Poll</a></p>
+          </div>
+        </div>
+      <% } else { %>
       <div class="jumbotron">
         <h1><%= pollTitle %></h1>
         <p>created by <%= email %></p>
       </div>
       <div class="panel panel-default">
-        <div class="panel-body">
+        <div class="panel-body panel-results">
           <form class="" action="poll.html" method="post">
             <!-- options -->
             <% options.forEach(function(option) { %>
@@ -22,15 +30,14 @@
                 <div class="panel-body">
                   <h3><%= option.option_title %></h3>
                   <p><%= option.desc %></p>
-                  <p>Option ID <%= option.optionId %></p>
-                  <p>Relative Rating <%= option.rating / options.length %></p>
-                  <p>Points <%= option.rating %></p>
+                  <p>Points <%= option.totalScore / option.ratings.length %></p>
                 </div>
               </div>
             <% }); %>
           </form>
         </div>
       </div>
+      <% }; %>
     </div>
 
     <% include ./partials/footer.ejs %>
