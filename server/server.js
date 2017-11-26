@@ -33,13 +33,8 @@ app.use('/styles', sass({
   debug: true,
   outputStyle: 'expanded'
 }));
-<<<<<<< HEAD
 
 app.use(express.static("public"));
-=======
-console.log(__dirname);
-app.use(express.static('public'));
->>>>>>> dev
 
 // handle favicon weirdness
 app.get('/favicon.ico', (req, res) => {
@@ -52,30 +47,18 @@ app.get('/', (req, res) => {
 });
 
 // main page POST
-<<<<<<< HEAD
-app.post("/", (req, res) => {
-=======
 app.post('/', (req, res) => {
->>>>>>> dev
   const generatedNum = helpers.generateRandomChars('0123456789abcdefghijklmnopqrstuvwxyz', 6);
   //gives us access to the polls table
   helpers.insertIntoPollsTable(req.body, generatedNum)
     .then((polls) => {
       const optionArray = req.body.option;
       const descriptionArray = req.body.description;
-<<<<<<< HEAD
+
       //for each option if it has a value add the option & it's description to database
       optionArray.forEach((value,index) => {
         helpers.fetchOptions()
           .then((option) => {
-=======
-
-      optionArray.forEach((value, index) => {
-        helpers.fetchOptions()
-          .then((option) => {
-            console.log('Option:', value, 'Description:', descriptionArray[index]);
-
->>>>>>> dev
             if (value !== '' ){
               helpers.insertIntoOptionsTable(value, descriptionArray[index], polls[0])
                 .then();
@@ -110,12 +93,7 @@ app.get('/:id', (req, res) => {
 });
 
 // poll page POST
-<<<<<<< HEAD
-app.post("/:id", (req, res) => {
-=======
 app.post('/:id', (req, res) => {
-  //fill me with javascript please for when the user submits poll rankins
->>>>>>> dev
   let pollId = req.headers.referer.slice(-6);
 
   helpers.fetchPollAtRoutePath(pollId)
@@ -123,10 +101,6 @@ app.post('/:id', (req, res) => {
       helpers.fetchOptionsAtPollId(polls[0])
         .then((options) => {
           for (let option in options) {
-<<<<<<< HEAD
-=======
-            console.log('Title', options[option].option_title, 'ID:', options[option].id, 'Score:', req.body[options[option].option_title]);
->>>>>>> dev
             helpers.insertIntoRatingsTable(req.body, options[option])
               .then();
           }
@@ -182,12 +156,8 @@ app.get('/:id/results', (req, res) => {
       });
       // Remove placeholder
       let removeFirst = templateVars.options.shift();
-<<<<<<< HEAD
+
       templateVars.options.sort(function(a, b){
-=======
-      //console.log('Options:', templateVars.options);
-      templateVars.options.sort((a, b) => {
->>>>>>> dev
         if (a.totalScore < b.totalScore) {
           return 1;
         }
@@ -196,10 +166,6 @@ app.get('/:id/results', (req, res) => {
         }
         return 0;
       });
-<<<<<<< HEAD
-=======
-      //console.log('Options POST SORT:', templateVars.options);
->>>>>>> dev
       res.render('results', templateVars);
     });
 });
