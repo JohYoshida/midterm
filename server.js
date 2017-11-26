@@ -66,26 +66,28 @@ app.post("/", (req, res) => {
     .returning('*')
     .then((polls) => {
       const optionArray = req.body.option;
+      const descriptionArray = req.body.description;
       let i = 0;
-
-      optionArray.forEach(value => {
+      //console.log('optionArray: ',optionArray,'descriptionArray: ',descriptionArray);
+      optionArray.forEach((value,index) => {
+        //console.log('1Option:', value, "1Description:", descriptionArray[index]);
         knex('options')
           .select('*')
           .returning('*')
-          .then((option) => {
-            console.log('Option:', value, "Description:", req.body.description[i]);
+          .then((options) => {
+            //console.log('2Option:', value, "2Description:", descriptionArray[index]);
 
             if (value !== '' ){
               knex('options')
                 .insert({
                   option_title: value,
-                  description: req.body.description[i],
+                  description: descriptionArray[index],
                   poll_id: polls[0].id
                 })
                 .then();
-              i++;
             }
           });
+          i++;
       });
     })
     .then(() => {
