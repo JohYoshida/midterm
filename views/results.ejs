@@ -30,7 +30,8 @@
                 <div class="panel-body">
                   <h3><%= option.option_title %></h3>
                   <p><%= option.desc %></p>
-                  <p>Received <%= ((option.totalScore / option.ratings.length) -1).toFixed(2) * 100  %>% of total vote</p>
+                  <!-- <p>Received <%= ((option.totalScore / option.ratings.length) -1).toFixed(2) * 100  %>% of total vote</p> -->
+                  <p>Received <%= (option.totalScore) %> points</p>
                 </div>
               </div>
             <% }); %>
