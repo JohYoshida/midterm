@@ -4,7 +4,7 @@ $(document).ready(function() {
     var lastOption = $('.input-group').last().children('.option');
     lastOption.on('focus', function(event) {
       var created = false;
-      $(".option").on("keydown", event => {
+      $(".option").on("keydown", function(event) {
         var optionVal = lastOption.val();
 
         if (!optionVal) {
